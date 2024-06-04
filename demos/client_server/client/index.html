@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+<body>
+    Courses:
+    <select id="courses">
+        <option>Select a course:</option>
+    </select>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", async e=>{
+        const response = await fetch("http://127.0.0.1:8081/api/courses");
+        const data = await response.json();
+        courses.innerHTML += data.map(o=>`
+            <option value="${encodeURI(JSON.stringify(o))}">
+                ${o.courseName}
+            </option>`
+        ).join("");
+    }); //loaded
+</script>
+</html>
