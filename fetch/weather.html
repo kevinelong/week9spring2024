@@ -1,0 +1,11 @@
+<body>
+    
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", async e=>{
+        const response = await fetch("https://api.weather.gov/points/27.9642,-82.4526");
+        const data = await response.json();
+        document.body.innerHTML = data.properties.relativeLocation.properties.city +
+        "<br>" + data.properties.forecast;
+    })//loaded
+</script>

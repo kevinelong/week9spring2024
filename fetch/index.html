@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="results">LOADING...</div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", async e => {
+        // 1. OLD SCHOOL
+        // function reqListener() {
+        //     let data = JSON.parse(this.responseText);
+        //     data.results.forEach(
+        //         r => results.innerHTML += `${r.anime_name}<img src="${r.url}">`
+        //     )
+        // }
+        // const req = new XMLHttpRequest();
+        // req.addEventListener("load", reqListener);
+        // req.open("GET", "https://nekos.best/api/v2/hug?amount=3");
+        // req.send();
+
+        // 2. NEW SCHOOL? async with . then callbacks
+        // fetch('https://nekos.best/api/v2/hug?amount=3')
+        //     .then(response => response.json())
+        //     .then(data => data.results.forEach(
+        //         r => results.innerHTML += `${r.anime_name}<img src="${r.url}">`
+        //     ));
+
+        // 3. BACK TO THE FUTURE: synchrounous using await
+        const response = await fetch('https://nekos.best/api/v2/hug?amount=3');
+        const data = await response.json();
+        data.results.forEach(
+            r => results.innerHTML += `${r.anime_name}<img src="${r.url}">`
+        );
+
+    });// end loaded
+</script>
+
+</html>
