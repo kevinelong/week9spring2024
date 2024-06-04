@@ -1,0 +1,49 @@
+<body>
+    <select name="city" id="city">
+        <option value="">Select a city</option>
+    </select>
+    <div id="output">?</div>
+</body>
+<script>
+    let cities = [
+        {
+            name: "Benbrook, TX",
+            latitude: 32.6732,
+            longitude: -97.4606
+        }, {
+            name: "Tampa, FL",
+            latitude: 27.9642,
+            longitude: -82.4526
+        },
+    ];
+
+    function getPeriod(period){
+        return `
+            <h3>  ${period.name}                              </h3>
+            <p><b>${period.temperature}</b> degrees Farenheit </p>
+            <p>   ${period.shortForecast}                     </p>
+        `;
+    }
+
+    async function loadCityStep1() {
+        const response = await fetch("https://api.weather.gov/points/" + city.value);
+        const data = await response.json();
+        loadCityStep2(data.properties.forecast)
+    }
+
+    async function loadCityStep2(forecastURL) {
+        const response = await fetch(forecastURL);
+        const data = await response.json();
+        output.innerHTML = data.properties.periods.map(getPeriod).join("");
+        //output.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+    }
+
+    document.addEventListener("DOMContentLoaded", async e => {
+        cities.forEach(c => city.innerHTML += `
+            <option value="${c.latitude},${c.longitude}">${c.name}</option>
+        `);
+
+        city.addEventListener("change", loadCityStep1);
+
+    })//loaded
+</script>
